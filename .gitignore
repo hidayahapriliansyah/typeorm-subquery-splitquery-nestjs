@@ -1,0 +1,49 @@
+# Node modules
+node_modules/
+
+# Build output
+/dist
+/build
+/.nestjs
+
+# TypeScript v1 declaration files
+*.tsbuildinfo
+
+# Dependency directories
+jspm_packages/
+
+# Production files
+.env.production
+
+# Testing
+coverage/
+*.log
+*.tgz
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# NPM package logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Jest
+jest-test-results.json
+test-coverage/
+
+# Docker
+.docker/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Next.js
+.next/
