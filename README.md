@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 🐱‍💻 NestJS Project for SplitQuery and SubQuery with TypeORM
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a **NestJS** project to test **SplitQuery** and **SubQuery** techniques using **TypeORM** with **MySQL**. It demonstrates how to retrieve data using two different query strategies in NestJS. You can test both query techniques, explore the database structure, and see the performance difference.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Prerequisites
 
-## Description
+Make sure you have the following installed on your local machine:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Node.js** v20.11.1 (check with `node -v`)
+- **MySQL** database server
 
-## Installation
+## 🧑‍💻 Setup Instructions
 
-```bash
-$ npm install
+### 1. Configure Your Database
+
+Before running the project, you need to configure your database connection.
+
+- Open `src/database/data-source.ts`. (Sorry for the inconvenience, but I’ve skipped creating an .env file for simplicity in this setup. 😅 Don’t worry, you’re still good to go!)
+- Modify the database, username, and password according to your environment.
+
+Here's the default code for **MySQL** connection:
+
+```ts
+import { DataSource, DataSourceOptions } from 'typeorm';
+
+export const dataSourceOptions: DataSourceOptions = {
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: 'root',
+  database: 'learn_subquery_typeorm',  // Change this to your database name
+  entities: [`${__dirname}/../**/**.entity{.ts,.js}`],
+  migrations: [`${__dirname}/../**/database/migrations/*{.ts,.js}`],
+};
+
+const dataSource = new DataSource(dataSourceOptions);
+export default dataSource;
 ```
 
-## Running the app
+### 2. Run Database Migrations
+
+Once your database is configured, run the migrations to apply the schema to the database:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run migration:run
 ```
 
-## Test
+This will apply the necessary migrations defined in your project.
+
+### 3. Run Seeder to Populate Data
+
+Next, you need to seed the database with 100 users, each having 100 chat messages. You can run the seed script with:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run seed
 ```
 
-## Support
+This will create the data you need for testing the SplitQuery and SubQuery endpoints.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 4. Run the Tests
 
-## Stay in touch
+You don't need to run the server with `npm run start:dev` because the project is using **Supertest** for end-to-end testing. You can directly run the tests by executing:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run test:e2e
+```
 
-## License
+This command will automatically start the tests and you will see the results in your terminal console. It checks the validity of the **SplitQuery** and **SubQuery** endpoints by making requests to the routes and validating their responses.
 
-Nest is [MIT licensed](LICENSE).
+## 🛠️ Tools and Libraries Used
+
+- **NestJS** - A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **TypeORM** - An ORM for TypeScript and JavaScript (ES7, ES6, ES5).
+- **MySQL** - Relational database management system.
+- **Jest** - A delightful JavaScript testing framework with a focus on simplicity.
+- **Supertest** - A popular HTTP assertion library for testing HTTP servers.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+If you have any issues or questions, feel free to open an issue or reach out. Happy coding! 👨‍💻👩‍💻
+
